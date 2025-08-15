@@ -49,3 +49,5 @@ jobs:
       run: |
         az cdn endpoint purge -g 'develfsl-rg' -n 'devel-fsl-endpoint' --profile-name 'devel-fsl-cdn' --content-paths "/*"
   
+
+  
