@@ -35,4 +35,17 @@ jobs:
     - name: Build project
       run: npm run build
 
-      
+    - name: Azure Login action
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        enable-AzPSSession: true
+    
+    - name: "Upload to storage"
+      run: |
+        az storage blob upload-batch -d '$web' -s ./build --account-name 'develfslstorage'
+
+    - name: "Purge CDN endpoint"
+      run: |
+        az cdn endpoint purge -g 'develfsl-rg' -n 'devel-fsl-endpoint' --profile-name 'devel-fsl-cdn' --content-paths "/*"
+  
